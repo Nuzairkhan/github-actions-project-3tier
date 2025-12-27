@@ -1,12 +1,30 @@
-script: |
-  set -e
-  mkdir -p ~/app
-  cd ~/app
-  if [ ! -d github-actions-project-3tier ]; then
-    git clone https://github.com/Nuzairkhan/github-actions-project-3tier.git
-  fi
-  cd github-actions-project-3tier
-  git pull origin main
-  cd Docker-Compose-Projects
-  docker-compose down
-  docker-compose up -d
+name: CD - Deploy to EC2
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+            mkdir -p ~/app
+            cd ~/app
+            if [ ! -d github-actions-project-3tier ]; then
+              git clone https://github.com/Nuzairkhan/github-actions-project-3tier.git
+            fi
+            cd github-actions-project-3tier
+            git pull origin main
+            cd Docker-Compose-Projects
+            docker-compose down || true
+            docker-compose up -d
+
