@@ -1,0 +1,12 @@
+script: |
+  set -e
+  mkdir -p ~/app
+  cd ~/app
+  if [ ! -d github-actions-project-3tier ]; then
+    git clone https://github.com/Nuzairkhan/github-actions-project-3tier.git
+  fi
+  cd github-actions-project-3tier
+  git pull origin main
+  cd Docker-Compose-Projects
+  docker-compose down
+  docker-compose up -d
