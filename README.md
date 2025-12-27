@@ -81,3 +81,4 @@ pm2 start npm --name backend -- start
 ```
 Frontend Modify the .env file and update the backend api endpoint
 # trigger cd
+# trigger cd again
