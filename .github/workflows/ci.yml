@@ -1,0 +1,15 @@
+name: CI - Sanity Check
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  sanity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Print message
+        run: echo "GitHub Actions is working for 3-tier project"
