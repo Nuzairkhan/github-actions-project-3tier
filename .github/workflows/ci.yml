@@ -1,15 +1,23 @@
-name: CI - Sanity Check
+name: CI - 3 Tier Docker Build
 
 on:
   push:
     branches: [ main ]
+  pull_request:
 
 jobs:
-  sanity:
+  docker-build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Print message
-        run: echo "GitHub Actions is working for 3-tier project"
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker images using Compose
+        run: |
+          cd Docker-Compose-Projects
+          docker compose build
+
